@@ -1,57 +1,91 @@
 ## **ZohoBooks Python Client Library**
 =========================================
-The python library for integrating with ZohoBooks. It is the python wrapper for Zoho Books Api.
+The Python library for integrating with the Zoho Books API.
 
 ## Installation
 ---------------
-Download `books` from repository and add those files to your project.
+Download the `Books` folder from github repository and add the files in them to your project.
 
 ## Documentation
 ----------------
-The documentation for using Zoho Books API is given [here](https://www.zoho.com/books/api/v3/)
+[API Reference](https://www.zoho.com/books/api/v3/index.html)
 
 ## Usage
 --------
-If you want to use all our Zoho books services API you should have a valid Zoho username, password and a valid authtoken.
+In order to access the Zoho Books APIs, users need to have a valid Zoho account and a valid Auth Token.
+ 
+### **Sign up for a Zoho Account:**
 
-How to generate your authtoken? [Refer Here](https://www.zoho.com/books/api/v3/) 
+- - - 
 
-### How to access ZohoBooks Api through python wrapper classes?
+For setting up a Zoho account, access the Zoho Books [Sign Up](https://www.zoho.com/books/signup) page and enter the requisite details - email address and password.
+ 
+### **Generate Auth Token:**
+
+- - -
+ 
+To generate the Auth Token, you need to send an authentication request to Zoho Accounts in a prescribed URL format. [Refer here](https://www.zoho.com/books/api/v3/index.html)
+
+
+## Python Wrappers - Sample
+
+
+### How to access Zoho Books APIs through Python wrapper classes?
 ------------------------------------------------------------------ 
 
-Here is a sample example code for accessing Zoho Books API through Python wrapper class.
-
-You have to import these classes:
+Below is a sample code for accessing the Books APIs through Python wrapper classes. Please import these classes:
 
         from books.model.Organization import Organization
         from books.model.Address import Address
         from books.api.OrganizationsApi import OrganizationsApi
         from books.service.ZohoBooks import ZohoBooks
 		
-There are two ways to create an instance for OrganizationsAPI
+Once you're done with importing the requisite classes, you'll have to proceed to create an instance of OrganisationsAPI.
 
- - Create an instance for organizations API by passing authtoken and organization id:
+### **Create OrganisationsAPI instance:**
+
+- - -
+
+Now there are two ways of creating an instance of OrganisationsAPI.
+
+ - Pass the AuthToken and create a OrganisationsAPIinstance. 
+
+Sample code:
 
         organizations_api = OrganizationsApi({"authtoken"}, {"organization_id"})
 			
- - Create an instance for ZohoBooks by passing authtoken and organization id and get the instance for Organizations api.
+ - Pass the AuthToken and organisations id to first create an instance of ZohoBooks, and then proceed to get the instance of Organisations API. 
+
+Sample code:
      
         zoho_books = ZohoBooks({"authtoken"}, {"organization_id"})
 
         organizations_api = zoho_books.get_organizations_api()
 			
 			
-#### **Get the list of organizations:**
+### **Get the list of organizations:**
+
+- - -
 			
-To get list of organizations you need to call the get_organizations() method.
+If you wish to get the list of all your Zoho Books organizations, you need to call the `get_organizations()` method in the format below:
 
         print organizations_api.get_organizations()
+        
+It returns the list of organizations object as a response.
 
-#### **Get details of an organization**
+### **Get details of an organization:**
+
+- - - 
+
+In order to get the details of a organization, you need to call the `get()` method by passing organization_id as a parameter.
     
         print organizations_api.get({"organization_id"})
 
-#### **Create an organization**
+### **Create a new organization:**
+
+- - - 
+
+Make use of the sample code below to create a new organization:
         
         organization = Organization()
         organization.set_name("Jony and co")
@@ -79,7 +113,11 @@ To get list of organizations you need to call the get_organizations() method.
         organization.set_remit_to_address("")
         print organizations_api.create(organization)
 
-#### **Update an existing Organization**
+### **Update an existing organization:**
+
+- - - 
+
+Proceed to update the details of an existing organization with the help of the sample code below:
  
         organization = Organization()
         organization.set_name("Jony and co")
@@ -107,22 +145,31 @@ To get list of organizations you need to call the get_organizations() method.
         organization.set_remit_to_address("")
         print organizations_api.update(organization_id, organization)
 
-#### **Get the parameters of an organization**
+### **Get the parameters of an organization:**
+
+- - - 
+
+To fetch organization parameters like address, currency code etc. use the sample code below:
 
         organization = organizations_api.get({"organization_id"})
         currency_code = organization.get_currency_code()
         organization_address = organization.get_address()
         organization_name = organization.get_name()
 
-#### **Exception Handling**
+### **Catch Exceptions:**
 
-If there is any error while calling Zoho Books API then `BooksException` will be thrown. So `try` and `exception` statements must be included in your classes.
+- - -
+
+If there is any error encountered while calling the Python Wrappers of Zoho Books API, the respective class will throw the BooksException. Use the below mentioned code to catch the BooksException:
 
         try:
+        
             organization = organizations_api.get({"organization_id"})
+            
         except BooksException as b_e:
+        
             print "Error Code:" + b_e.get_code() + "\nError Message:" + b_e.get_message()
 
-See [Here](../../tree/master/test) for full examples.
+For a full set of examples, click [here](../../tree/master/test).
       
 
