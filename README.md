@@ -88,15 +88,15 @@ In order to get the details of a organization, you need to call the `get()` meth
 Make use of the sample code below to create a new organization:
         
         organization = Organization()
-        organization.set_name("Jony and co")
+        organization.set_name("ZOHO")
 
         address = Address()
-        address.set_street_address1("2/65")
-        address.set_street_address2("vignesh plaza")
-        address.set_city("MDU")
-        address.set_state("TN")
-        address.set_country("India")
-        address.set_zip("322")
+        address.set_street_address1("9390 Research Blvd")
+        address.set_street_address2("Bldg II, Suite 440")
+        address.set_city("Austin")
+        address.set_state("Texas")
+        address.set_country("U.S.A")
+        address.set_zip("78759")
         organization.set_address(address)
 
         organization.set_industry_type("")
@@ -120,15 +120,15 @@ Make use of the sample code below to create a new organization:
 Proceed to update the details of an existing organization with the help of the sample code below:
  
         organization = Organization()
-        organization.set_name("Jony and co")
+        organization.set_name("ZOHO")
 
         address = Address()
-        address.set_street_address1("2/65")
-        address.set_street_address2("vignesh plaza")
-        address.set_city("MDU")
-        address.set_state("TN")
-        address.set_country("India")
-        address.set_zip("322")
+        address.set_street_address1("9390 Research Blvd")
+        address.set_street_address2("Bldg II, Suite 440")
+        address.set_city("Austin")
+        address.set_state("Texas")
+        address.set_country("U.S.A")
+        address.set_zip("78759")
 
         organization.set_address(address)
         organization.set_industry_type("")
