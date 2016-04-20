@@ -22,12 +22,12 @@ attachment = '/{file_directory}/emp.pdf'
 
 # List bills
 parameter = {'status':'open'}
-print bill_api.get_bills()
-print bill_api.get_bills(parameter)
+#print bill_api.get_bills()
+#print bill_api.get_bills(parameter)
 
 # Get a bill
 
-print bill_api.get(bill_id)
+#print bill_api.get(bill_id)
 
 # Create a bill
 
@@ -49,8 +49,8 @@ bill.set_line_items(line_items)
 bill.set_notes("before due")
 bill.set_terms('conditions Apply')
 
-print bill_api.create(bill)
-#print bill_api.create(bill,attachment)
+#print bill_api.create(bill)
+##print bill_api.create(bill,attachment)
 
 # Update a bill
 
@@ -75,20 +75,20 @@ bill.set_notes("before due")
 bill.set_terms('conditions Apply')
 
 
-#print bill_api.update(bill_id,bill)
-print bill_api.update(bill_id,bill,attachment)
+##print bill_api.update(bill_id,bill)
+#print bill_api.update(bill_id,bill,attachment)
 
 # Delete a bill
 
-print bill_api.delete(bill_id)
+#print bill_api.delete(bill_id)
 
 # Void a bill
 
-print bill_api.void_a_bill(bill_id)
+#print bill_api.void_a_bill(bill_id)
 
 # Mark a bill as open
 
-print bill_api.mark_a_bill_as_open(bill_id)
+#print bill_api.mark_a_bill_as_open(bill_id)
 
 # Update billing_ address
 
@@ -99,7 +99,7 @@ billing_address.set_state('Tamilnadu')
 billing_address.set_zip('908')
 billing_address.set_country('India')
 
-print bill_api.update_billing_address(bill_id,billing_address)
+#print bill_api.update_billing_address(bill_id,billing_address)
 '''
 '''
 param = {'status': 'paid'}
@@ -109,45 +109,45 @@ bill_payment_id = bill_api.list_bill_payments(bill_id)[0].get_bill_payment_id()
 
 # List bill payment
 
-print bill_api.list_bill_payments(bill_id)
+#print bill_api.list_bill_payments(bill_id)
 
 # Apply credits
 
 bill_payments = BillPayment()
 bill_payments.set_payment_id(payment_id)
 bill_payments.set_amount_applied(0.0)
-print bill_api.apply_credits(bill_id,[bill_payments])
+#print bill_api.apply_credits(bill_id,[bill_payments])
 
 # Delete a payment
 
-print bill_api.delete_a_payment(bill_id,bill_payment_id)
+#print bill_api.delete_a_payment(bill_id,bill_payment_id)
 
 '''
 # Get a bill attachment
 '''
-print bill_api.get_a_bill_attachment(bill_id)
-#print bill_api.get_a_bill_attachment("71127000000080017",True)
+#print bill_api.get_a_bill_attachment(bill_id)
+##print bill_api.get_a_bill_attachment("71127000000080017",True)
 
 # Add attachment to a bill
 attachment='/{file_directory}/download.jpg'
-print bill_api.add_attachments_to_a_bill(bill_id,attachment)
+#print bill_api.add_attachments_to_a_bill(bill_id,attachment)
 
 # Delete an attachment
 
-print bill_api.delete_an_attachment(bill_id)
+#print bill_api.delete_an_attachment(bill_id)
 
 # List bill comments and history
 comment_id = bill_api.list_bill_comments_and_history(bill_id).get_comments()[0].get_comment_id()
 
-print bill_api.list_bill_comments_and_history(bill_id)
+#print bill_api.list_bill_comments_and_history(bill_id)
 
 # Add Comment
 description="Welcome"
-print bill_api.add_comment(bill_id,description)
+#print bill_api.add_comment(bill_id,description)
 
 # Delete a comment
 comment_id = "71127000000204442"
-print bill_api.delete_a_comment(bill_id,comment_id)
+#print bill_api.delete_a_comment(bill_id,comment_id)
 
 
 
