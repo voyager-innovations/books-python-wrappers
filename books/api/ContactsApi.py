@@ -1,12 +1,14 @@
 #$Id$#
 
+import json
+
 from os.path import basename
-from json import dumps
 from books.util.ZohoHttpClient import ZohoHttpClient
 from books.parser.ContactParser import ContactParser
-from Api import Api
+from books.api.Api import Api
 
-base_url = Api().base_url + 'contacts/'
+api = Api()
+base_url =   api.base_url + 'contacts'
 parser = ContactParser()
 zoho_http_client = ZohoHttpClient()
 
@@ -43,12 +45,12 @@ class ContactsApi:
             'authtoken': authtoken,
             'organization_id': organization_id
             }
-  
-    def get_contacts(self, parameter=None):   
+
+    def get_contacts(self, parameter=None):
         """List of contacts with pagination for a particular organization.
 
         Args:
-            parameter(dict, optional): Filter with which the list has to be 
+            parameter(dict, optional): Filter with which the list has to be
                 displayed. Defaults to None.
 
         Returns:
@@ -56,7 +58,8 @@ class ContactsApi:
 
         """
         response = zoho_http_client.get(base_url, self.details, parameter)
-        return parser.get_contacts(response) 
+        contacts_list = parser.get_contacts(response)
+        return contacts_list
 
     def get(self, contact_id):
         """Get details of a contact.
@@ -68,9 +71,9 @@ class ContactsApi:
             instance: Contact object.
 
         """
-        url = base_url + contact_id
+        url = base_url + "/" + contact_id
         response = zoho_http_client.get(url, self.details, None)
-        return parser.get_contact(response) 
+        return parser.get_contact(response)
 
     def create(self, contact):
         """Create a contact.
@@ -83,18 +86,18 @@ class ContactsApi:
 
         """
         data = contact.to_json()
-        field = {
-                'JSONString':dumps(data)
-                } 
+        field = json.dumps(data)
         response = zoho_http_client.post(base_url, self.details, field, None)
-        return parser.get_contact(response) 
-   
+        print(response)
+        contact = parser.get_contact(response)
+        return contact
+
     def update(self, contact_id, contact):
         """Update a contact with the given information.
 
         Args:
             contact_id(str): Contact_id of the contact that has to be updated.
-            contact(instance): Contact object which has the information that 
+            contact(instance): Contact object which has the information that
                 has to be updated.
 
         Returns:
@@ -104,14 +107,13 @@ class ContactsApi:
             Books exception: If status is not '200' or '201'.
 
         """
-        url = base_url + contact_id
+        url = base_url + "/" + contact_id
         data = contact.to_json()
-        field = {
-                'JSONString':dumps(data)
-                } 
+        field = json.dumps(data)
         response = zoho_http_client.put(url, self.details, field, None)
-        return parser.get_contact(response) 
- 
+        contact = parser.get_contact(response)
+        return contact
+
     def delete(self, contact_id):
         """Delete a particular contact.
 
@@ -121,13 +123,13 @@ class ContactsApi:
         Returns:
             str: Success message('The contact has been deleted').
 
-        Raises: 
+        Raises:
             Books exception: If status is not '200' or '201'.
 
-        """ 
-        url = base_url +  contact_id
+        """
+        url = base_url +  "/" + contact_id
         response = zoho_http_client.delete(url, self.details)
-        return parser.get_message(response) 
+        return parser.get_message(response)
 
     def mark_active(self, contact_id):
         """Mark a contact as active.
@@ -144,7 +146,7 @@ class ContactsApi:
         """
         url= base_url + contact_id + '/active'
         response = zoho_http_client.post(url, self.details, '')
-        return parser.get_message(response) 
+        return parser.get_message(response)
 
     def mark_inactive(self, contact_id):
         """Mark a contact as inactive.
@@ -158,10 +160,10 @@ class ContactsApi:
         Raises:
             Books exception: If status is not '200' or '201'.
 
-        """         
+        """
         url = base_url + contact_id + '/inactive'
         response = zoho_http_client.post(url, self.details, '')
-        return parser.get_message(response) 
+        return parser.get_message(response)
 
     def enable_payment_reminder(self, contact_id):
         """Enable automated payment reminders for a contact.
@@ -170,7 +172,7 @@ class ContactsApi:
             contact_id(str): Contact id of the contact.
 
         Returns:
-            str: Success message('All reminders associated with this contact 
+            str: Success message('All reminders associated with this contact
                 have been enabled').
 
         Raises:
@@ -180,7 +182,7 @@ class ContactsApi:
         url = base_url + contact_id + '/paymentreminder/enable'
         response = zoho_http_client.post(url, self.details, '')
         return parser.get_message(response)
- 
+
     def disable_payment_reminder(self, contact_id):
         """Disable automated payment reminders for a contact.
 
@@ -188,7 +190,7 @@ class ContactsApi:
             contact_id(str): Contact id of the contact.
 
         Returns:
-            str: Success message('All reminders associated with this contact 
+            str: Success message('All reminders associated with this contact
                 have been disabled').
 
         Raises:
@@ -197,21 +199,21 @@ class ContactsApi:
         """
         url = base_url + contact_id + '/paymentreminder/disable'
         response = zoho_http_client.post(url, self.details, '')
-        return parser.get_message(response) 
+        return parser.get_message(response)
 
-    def email_statement(self, contact_id, email,start_date=None, end_date=None, 
+    def email_statement(self, contact_id, email,start_date=None, end_date=None,
                         attachments=None):
-        """Email statement to the contact. If JSONString is not inputted, mail 
+        """Email statement to the contact. If JSONString is not inputted, mail
             will be sent with the default mail content.
 
         Args:
             contact_id(str): Contact id of the contact.
             email(instance): Email.
-            start_date(str, optional): Starting date of the statement. 
+            start_date(str, optional): Starting date of the statement.
                 Default to None.
-            end_date(str, optional): Ending date of the statement. 
+            end_date(str, optional): Ending date of the statement.
                 Default to None.
-                If starting date and ending date is not given current month's 
+                If starting date and ending date is not given current month's
                     statement will be sent to the contact.
             attachments(list): List of files to be attached.
 
@@ -229,7 +231,7 @@ class ContactsApi:
             data['start_date'] = start_date
             data['end_date'] = end_date
         fields = {
-            'JSONString': dumps(data)
+            'JSONString': json.dumps(data)
                 }
         if attachments is None:
             response = zoho_http_client.post(url, self.details, fields)
@@ -239,15 +241,15 @@ class ContactsApi:
             for value in attachments:
                 attachment = {
                     'attachments': {
-                        'filename': basename(value), 
+                        'filename': basename(value),
                         'content': open(value).read()
                         }
                     }
                 file_list.append(attachment)
-            
-            response = zoho_http_client.post(url, self.details, fields, 
+
+            response = zoho_http_client.post(url, self.details, fields,
                                                      None, file_list)
-        return parser.get_message(response) 
+        return parser.get_message(response)
 
     def get_statement_mail_content(self, contact_id, start_date, end_date):
         """Get the statement mail content.
@@ -259,28 +261,28 @@ class ContactsApi:
         Returns:
             instance: Email object.
 
-        Raises: 
+        Raises:
             Books exception:if status is not '200' or '201'.
 
-        """ 
+        """
         url = base_url + contact_id + '/statements/email'
         query_string = {
             'start_date': start_date,
             'end_date': end_date
             }
         response = zoho_http_client.get(url, self.details, query_string)
-        return parser.get_mail_content(response) 
- 
-    def email_contact(self, contact_id, email, attachments=None, 
+        return parser.get_mail_content(response)
+
+    def email_contact(self, contact_id, email, attachments=None,
                       send_customer_statement=None):
         """Send email to contact.
 
         Args:
             contact_id(str): Contact id of the contact.
             email(instance): Email object.
-            attachments(list, optional): List of files to be attached. 
+            attachments(list, optional): List of files to be attached.
                 Default to None.
-            send_customer_statement(bool, optional): Send customer statement 
+            send_customer_statement(bool, optional): Send customer statement
                 pdf with email. Default to None.
 
         Returns:
@@ -292,7 +294,7 @@ class ContactsApi:
         """
         url = base_url + contact_id + '/email'
 
-        json_object = dumps(email.to_json())
+        json_object = json.dumps(email.to_json())
         data = {
             'JSONString': json_object
             }
@@ -302,7 +304,7 @@ class ContactsApi:
             for value in attachments:
                 attachment = {
                     'attachments': {
-                        'filename': basename(value), 
+                        'filename': basename(value),
                         'content': open(value).read()
                         }
                     }
@@ -311,7 +313,7 @@ class ContactsApi:
             parameter = {
                 'send_customer_statement': send_customer_statement
                 }
-            response = zoho_http_client.post(url, self.details, data, 
+            response = zoho_http_client.post(url, self.details, data,
                                                      parameter, file_list)
 
         elif attachments is not None:
@@ -320,20 +322,20 @@ class ContactsApi:
             for value in attachments:
                 attachment = {
                     'attachments': {
-                        'filename': basename(value), 
+                        'filename': basename(value),
                         'content': open(value).read()
                         }
                     }
                 file_list.append(attachment)
 
-            response = zoho_http_client.post(url, self.details, 
+            response = zoho_http_client.post(url, self.details,
                                                      data, None, file_list)
 
         elif send_customer_statement is not None:
-            parameter = { 
+            parameter = {
                 'send_customer_statement': send_customer_statement
                 }
-            response = zoho_http_client.post(url, self.details, data, 
+            response = zoho_http_client.post(url, self.details, data,
                                                      parameter)
 
         else:
@@ -356,7 +358,7 @@ class ContactsApi:
         """
         url = base_url + contact_id + '/comments'
         response = zoho_http_client.get(url, self.details)
-        return parser.get_comment_list(response) 
+        return parser.get_comment_list(response)
 
     def get_comments(self, contact_id):
         """List recent activities of a contact.
@@ -374,11 +376,11 @@ class ContactsApi:
         url = base_url + contact_id + '/comments'
         response = zoho_http_client.get(url, self.details)
         return parser.get_comment_list(response).get_comments()
-     
+
     def list_refunds(self, contact_id):
         """List the refund history of a contact with pagination.
 
-        Args: 
+        Args:
             contact_id(str): Contact id of the contact.
 
         Returns:
@@ -390,12 +392,12 @@ class ContactsApi:
         """
         url = base_url + contact_id + '/refunds'
         response = zoho_http_client.get(url, self.details)
-        return parser.get_refund_list(response) 
- 
-    def get_refunds(self, contact_id): 
+        return parser.get_refund_list(response)
+
+    def get_refunds(self, contact_id):
         """List the refund history of a contact.
 
-        Args: 
+        Args:
             contact_id(str): Contact id of the contact.
 
         Returns:
@@ -407,8 +409,8 @@ class ContactsApi:
         """
         url = base_url + contact_id + '/refunds'
         response = zoho_http_client.get(url, self.details)
-        return parser.get_refund_list(response).get_creditnote_refunds() 
-    
+        return parser.get_refund_list(response).get_creditnote_refunds()
+
     def track_1099(self, contact_id):
         """Track a contact for 1099 reporting.
 
@@ -418,13 +420,13 @@ class ContactsApi:
         Returns:
             str: Success message('1099 tracking is enabled').
 
-        Raises: 
+        Raises:
             Books exception: If status is not '200' or '201'.
 
         """
         url = base_url + contact_id + '/track1099'
         response = zoho_http_client.post(url, self.details, '')
-        return parser.get_message(response)   
+        return parser.get_message(response)
 
     def untrack_1099(self, contact_id):
         """Track a contact for 1099 reporting.
@@ -435,10 +437,10 @@ class ContactsApi:
         Returns:
             str: Success message('1099 tracking is enabled').
 
-        Raises: 
+        Raises:
             Books exception: If status is not '200' or '201'.
 
         """
         url = base_url + contact_id + '/untrack1099'
         response = zoho_http_client.post(url, self.details, '')
-        return parser.get_message(response) 
+        return parser.get_message(response)

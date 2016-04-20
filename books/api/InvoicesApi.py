@@ -4,7 +4,7 @@ from os.path import basename
 from json import dumps
 from books.util.ZohoHttpClient import ZohoHttpClient
 from books.parser.InvoicesParser import InvoicesParser
-from Api import Api
+from books.api.Api import Api
 
 base_url = Api().base_url + 'invoices/'
 parser = InvoicesParser()

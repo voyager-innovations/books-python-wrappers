@@ -1,17 +1,27 @@
 #$Id$#
 
+import requests
+
 from books.model.Contact import Contact
 from books.model.Email import Email
 from books.model.Address import Address
 from books.model.ContactPerson import ContactPerson
 from books.service.ZohoBooks import ZohoBooks
+
 zoho_books = ZohoBooks("1202c2fa92ed3b23db3f93c84e21624d", "317312245")
+# To get the auth token programmatically, use:
+# https://accounts.zoho.com/apiauthtoken/nb/create?SCOPE=ZohoBooks/booksapi&EMAIL_ID=[ZohoID/EmailID]&PASSWORD=[Password]
+#
+# To get the organization id programmatically, use:
+# https://books.zoho.com/api/v3/organizations?authtoken=[AUTHTOKEN]
+
 
 contact_api = zoho_books.get_contacts_api()
 
+# to get a contact from contacts list
 first_contact = contact_api.get_contacts().get_contacts()[0]
 print("contact_id = ", first_contact.contact_id)
-print("contact_id = ", first_contact.contact_name)
+print("contact_name = ", first_contact.contact_name)
 # to list contacts
 
 #parameter = {'sort_column':'last_name'}
@@ -19,9 +29,9 @@ print("contact_id = ", first_contact.contact_name)
 
 # to get a contact
 
-#print(contact_api.get(contact_id))
+test_contact = contact_api.get(first_contact.contact_id)
+print("get contact using id = '"  + first_contact.contact_id + "' : " + test_contact.contact_id + " | " + test_contact.contact_name)
 
-# to create contact
 
 # to create contact
 
@@ -46,7 +56,7 @@ v.set_salutation('mr')
 v.set_is_primary_contact(True)
 con_per.append(v)
 
-contact.set_contact_persons(con_per)
+#contact.set_contact_persons(con_per)
 
 baddress = Address()
 baddress.set_address('45, suite street')
@@ -93,7 +103,7 @@ v.set_salutation('mr')
 v.set_is_primary_contact(True)
 con_per.append(v)
 
-contact.set_contact_persons(con_per)
+#contact.set_contact_persons(con_per)
 
 
 baddress = Address()
@@ -120,73 +130,3 @@ print("company name:",new_contact.company_name)
 # to delete a contact
 
 print(contact_api.delete(contact_id))
-
-#mark as active
-
-#print contact_api.mark_active(contact_id)
-
-#mark as inactive
-
-#print contact_api.mark_inactive(contact_id)
-
-#enable payment reminder
-
-#print contact_api.enable_payment_reminder(contact_id)
-
-#disable payment reminder
-
-#print contact_api.disable_payment_reminder(contact_id)
-
-#send email statement (current month's statement will be sent to contact)
-
-#email = Email()
-#to_mailid = ['example@zohocorp.com', 'example@gmail.com', 'example@gmail.com']
-#email.set_to_mail_ids(to_mailid)
-#email.set_subject('Statement of transactions')
-#email.set_body('welcome')
-#print contact_api.email_statement(contact_id, email)
-
-#send email statement (mentioned date statement will be sent to contact)
-#start_date = '2014-01-01'
-#nd_date = '2014-01-20'
-#print contact_api.email_statement(contact_id, email, start_date, end_date)
-
-#send email statement with attachment
-#attachment = ['/{file_directory}/fil1.txt', '/{file_directory}/fil2.txt']
-#print contact_api.email_statement(contact_id, email, start_date, end_date, attachment)
-
-# get email statement
-
-#print contact_api.get_statement_mail_content(contact_id, '2014-01-01', '2014-01-15')
-
-#send email to contact
-
-email = Email()
-to_mailid = ['example@zohocorp.com', 'example@gmail.com']
-email.set_to_mail_ids(to_mailid)
-email.set_subject('Statement of transactions')
-email.set_body('welcome')
-attachment = ['/{file_directory}/n1.png', '/{file_directory}/new1.pdf']
-#print contact_api.email_contact(contact_id, email)
-#print contact_api.email_contact(contact_id, email, None, True)
-#print contact_api.email_contact(contact_id, email, attachment)
-#print contact_api.email_contact(contact_id, email, attachment, True)
-
-# list comments
-
-#print contact_api.list_comments(contact_id)
-#print contact_api.get_comments(contact_id)
-
-#list refunds
-
-#print contact_api.list_refunds(contact_id)
-#print contact_api.get_refunds(contact_id)
-
-#track 1099
-
-#print contact_api.track_1099(contact_id)
-
-# untrack 1099
-
-#print contact_api.untrack_1099(contact_id)
-

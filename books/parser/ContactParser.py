@@ -27,7 +27,7 @@ class ContactParser:
 
         Returns:
             instance: Contact object.
- 
+
         """
         contact = Contact()
         response = resp['contact']
@@ -70,8 +70,8 @@ class ContactParser:
             custom_field.set_index(value['index'])
             custom_field.set_value(value['value'])
             custom_field.set_label(value['label'])
-            contact_person.set_custom_fields(custom_field)
-    
+            contact.set_custom_fields(custom_field)
+
         billing_address = Address()
         billing_address.set_address(response['billing_address']['address'])
         billing_address.set_city(response['billing_address']['city'])
@@ -80,7 +80,7 @@ class ContactParser:
         billing_address.set_country(response['billing_address']['country'])
         billing_address.set_fax(response['billing_address']['fax'])
         contact.set_billing_address(billing_address)
-    
+
         shipping_address = Address()
         shipping_address.set_address(response['shipping_address']['address'])
         shipping_address.set_city(response['shipping_address']['city'])
@@ -103,7 +103,7 @@ class ContactParser:
             contact_person.set_is_primary_contact(value['is_primary_contact'])
             contact_persons.append(contact_person)
         contact.set_contact_persons(contact_persons)
-  
+
         default_templates = DefaultTemplate()
         default_templates.set_invoice_template_id(response[
             'default_templates']['invoice_template_id'])
@@ -124,28 +124,28 @@ class ContactParser:
         default_templates.set_estimate_email_template_id(response[\
             'default_templates']['estimate_email_template_id'])
         default_templates.set_estimate_email_template_name(response[\
-            'default_templates']['estimate_email_template_name']) 
+            'default_templates']['estimate_email_template_name'])
         default_templates.set_creditnote_email_template_id(response[\
             'default_templates']['creditnote_email_template_id'])
         default_templates.set_creditnote_email_template_name(response[\
             'default_templates']['creditnote_email_template_name'])
-    
+
         contact.set_default_templates(default_templates)
         contact.set_notes(response['notes'])
         contact.set_created_time(response['created_time'])
         contact.set_last_modified_time(response['last_modified_time'])
         return contact
- 
+
     def get_contacts(self, resp):
-        """This method parses the given response and creates a contact 
+        """This method parses the given response and creates a contact
             list object.
-  
+
         Args:
             resp(dict): Response containing json object for contact list.
 
         Returns:
             instance: Contact list object.
- 
+
         """
         contacts_list = ContactList()
         response = resp['contacts']
@@ -182,16 +182,16 @@ class ContactParser:
         page_context_object.set_per_page(page_context['per_page'])
         page_context_object.set_has_more_page(page_context['has_more_page'])
         page_context_object.set_applied_filter(page_context['applied_filter'])
-        page_context_object.set_sort_column(page_context['sort_column']) 
-        page_context_object.set_sort_order(page_context['sort_order']) 
-    
+        page_context_object.set_sort_column(page_context['sort_column'])
+        page_context_object.set_sort_order(page_context['sort_order'])
+
         contacts_list.set_page_context(page_context_object)
         return contacts_list
 
     def get_contact_person(self, resp):
-        """This method parses the given response and creates a contact person 
+        """This method parses the given response and creates a contact person
             object.
- 
+
         Args:
             resp(dict): Response containing json object for contact person.
 
@@ -199,7 +199,7 @@ class ContactParser:
             instance: Contact person object.
 
         """
-        contact_person = ContactPerson() 
+        contact_person = ContactPerson()
         response = resp['contact_person']
         contact_person.set_contact_id(response['contact_id'])
         contact_person.set_contact_person_id(response['contact_person_id'])
@@ -210,18 +210,18 @@ class ContactParser:
         contact_person.set_phone(response['phone'])
         contact_person.set_mobile(response['mobile'])
         contact_person.set_is_primary_contact(response['is_primary_contact'])
-     
+
         return contact_person
 
     def get_contact_persons(self, response):
-        """This method parses the given repsonse and creates contact persons 
+        """This method parses the given repsonse and creates contact persons
             list object.
 
-        Args: 
-            response(dict): Response containing json object for contact 
+        Args:
+            response(dict): Response containing json object for contact
                                 persons list.
 
-        Returns: 
+        Returns:
             instance: Contact person list object.
 
         """
@@ -236,7 +236,7 @@ class ContactParser:
             contact_person.set_email(value['email'])
             contact_person.set_phone(value['phone'])
             contact_person.set_mobile(value['mobile'])
-            contact_person.set_is_primary_contact(value['is_primary_contact'])    
+            contact_person.set_is_primary_contact(value['is_primary_contact'])
             contact_person_list.set_contact_persons(contact_person)
         page_context_object = PageContext()
         page_context = response['page_context']
@@ -245,7 +245,7 @@ class ContactParser:
         page_context_object.set_has_more_page(page_context['has_more_page'])
         page_context_object.set_sort_column(page_context['sort_column'])
         page_context_object.set_sort_order(page_context['sort_order'])
-    
+
         contact_person_list.set_page_context(page_context_object)
         return contact_person_list
 
@@ -253,10 +253,10 @@ class ContactParser:
     def get_message(self, response):
         """This method parses the given response and returns the message.
 
-        Args: 
+        Args:
             response(dict): Response containing json object.
 
-        Returns: 
+        Returns:
             str: Success message.
 
         """
@@ -271,7 +271,7 @@ class ContactParser:
         Returns:
             instance: Email object.
 
-        """   
+        """
         email = Email()
         data = response['data']
         email.set_body(data['body'])
@@ -300,7 +300,7 @@ class ContactParser:
         return email
 
     def get_comment_list(self, response):
-        """This method parses the given response and creates object for 
+        """This method parses the given response and creates object for
             comments list.
 
         Args:
@@ -313,7 +313,7 @@ class ContactParser:
         comment_list = CommentList()
         contact_comments = response['contact_comments']
         for value in contact_comments:
-            contact_comment = Comment() 
+            contact_comment = Comment()
             contact_comment.set_comment_id(value['comment_id'])
             contact_comment.set_contact_id(value['contact_id'])
             contact_comment.set_contact_name(value['contact_name'])
@@ -337,11 +337,11 @@ class ContactParser:
         page_context_object.set_sort_column(page_context['sort_column'])
         page_context_object.set_sort_order(page_context['sort_order'])
         comment_list.set_page_context(page_context_object)
-    
+
         return comment_list
 
     def get_refund_list(self, response):
-        """This method parses the given response and creates refund list 
+        """This method parses the given response and creates refund list
             object.
 
         Args:
@@ -374,9 +374,9 @@ class ContactParser:
         page_context_object.set_has_more_page(page_context['has_more_page'])
         page_context_object.set_report_name(page_context['report_name'])
         page_context_object.set_sort_column(page_context['sort_column'])
-        page_context_object.set_sort_order(page_context['sort_order'])    
+        page_context_object.set_sort_order(page_context['sort_order'])
         list_refund.set_page_context(page_context_object)
 
         return list_refund
 
-  
+

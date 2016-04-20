@@ -400,7 +400,7 @@ class BankTransactionsApi:
                     'content': open(receipt).read()
                     } 
                 }]
-        print data
+        print(data)
         resp = zoho_http_client.post(url, self.details, data, None, attachments)
         return parser.get_message(resp) 
 

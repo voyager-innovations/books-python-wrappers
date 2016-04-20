@@ -3,7 +3,7 @@
 from os.path import basename
 from books.util.ZohoHttpClient import ZohoHttpClient
 from books.parser.EstimatesParser import EstimatesParser
-from Api import Api
+from books.api.Api import Api
 from json import dumps
 
 base_url = Api().base_url + 'estimates/'

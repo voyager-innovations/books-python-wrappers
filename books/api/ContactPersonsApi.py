@@ -2,7 +2,7 @@
 
 from books.util.ZohoHttpClient import ZohoHttpClient
 from books.parser.ContactParser import ContactParser
-from Api import Api
+from books.api.Api import Api
 from json import dumps
 
 base_url = Api().base_url + 'contacts/'
@@ -75,7 +75,7 @@ class ContactPersonsApi:
         """
         url = base_url + 'contactpersons'
         json_object = dumps(contact_person.to_json())
-        print json_object
+        print(json_object)
         data = {
             'JSONString': json_object
             }

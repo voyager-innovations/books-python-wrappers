@@ -183,7 +183,7 @@ class ProjectsApi:
         data = {
             'JSONString': json_object
             }
-        print data
+        print(data)
         resp = zoho_http_client.post(url, self.details, data)
         return parser.get_project(resp) 
 
@@ -346,12 +346,12 @@ class ProjectsApi:
 
         """
         url = base_url + project_id + '/users/invite'
-        print user.to_json()
+        print(user.to_json())
         json_object = dumps(user.to_json())
         data = {
             'JSONString': json_object
             }
-        print data
+        print(data)
         resp = zoho_http_client.post(url, self.details, data)
         return parser.get_user(resp) 
  
