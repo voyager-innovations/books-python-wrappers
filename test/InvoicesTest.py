@@ -12,7 +12,7 @@ from books.model.InvoiceCredited import InvoiceCredited
 from books.model.Comment import Comment
 
 from books.service.ZohoBooks import ZohoBooks
-zoho_books = ZohoBooks("{auth_token}", "{organization_id}")
+zoho_books = ZohoBooks("1202c2fa92ed3b23db3f93c84e21624d", "317312245")
 
 invoice_api = zoho_books.get_invoices_api()
 #invoice_id = invoice_api.get_invoices().get_invoices()[0].get_invoice_id()
@@ -33,13 +33,13 @@ attachment = ['/{file_directory}/fil1.txt', '/{file_directory}/fil2.txt']
 # to list invoices
 
 parameter = {'status':'sent'}
-print invoice_api.get_invoices()
-print invoice_api.get_invoices(parameter)
+#printinvoice_api.get_invoices()
+#printinvoice_api.get_invoices(parameter)
 
 #to get an invoice
 
-print invoice_api.get(invoice_id)
-print invoice_api.get(invoice_id, True, 'json')
+#printinvoice_api.get(invoice_id)
+#printinvoice_api.get(invoice_id, True, 'json')
 
 #create invoice
 
@@ -61,7 +61,7 @@ invoice.set_customer_id(customer_id)
 
 invoice.set_contact_persons(contact_person_id)
 invoice.set_reference_number('1354444444445')
-invoice.set_template_id(template_id)
+#invoice.set_template_id(template_id)
 invoice.set_date(date)
 invoice.set_payment_terms(payment_terms)
 invoice.set_payment_terms_label(payment_terms_label)
@@ -109,12 +109,12 @@ invoice.set_terms('terms')
 invoice.set_shipping_charge(7.50)
 invoice.set_adjustment(15.5)
 invoice.set_adjustment_description('adjustment')
-print invoice_api.create(invoice)
-#print invoice_api.create(invoice, False)
+#printinvoice_api.create(invoice)
+##printinvoice_api.create(invoice, False)
 #invoice.set_invoice_number('25')
-#print invoice_api.create(invoice, True, True)
-#print invoice_api.create(invoice, True, None)
-#print invoice_api.create(invoice, None, False)
+##printinvoice_api.create(invoice, True, True)
+##printinvoice_api.create(invoice, True, None)
+##printinvoice_api.create(invoice, None, False)
 
 # update invoice
 
@@ -135,7 +135,7 @@ invoice.set_customer_id(customer_id)
 
 invoice.set_contact_persons(contact_person_id)
 invoice.set_reference_number('1354444444445')
-invoice.set_template_id(template_id)
+# invoice.set_template_id(template_id)
 invoice.set_date(date)
 invoice.set_payment_terms(payment_terms)
 invoice.set_payment_terms_label(payment_terms_label)
@@ -184,25 +184,25 @@ invoice.set_shipping_charge(7.50)
 invoice.set_adjustment(15.5)
 invoice.set_adjustment_description('adjustment')
 
-print invoice_api.update(invoice_id, invoice)
+#printinvoice_api.update(invoice_id, invoice)
 invoice.set_invoice_number('26')
-print invoice_api.update(invoice_id, invoice, True)
+#printinvoice_api.update(invoice_id, invoice, True)
 
 # delete invoice
 
-print invoice_api.delete(invoice_id)
+#printinvoice_api.delete(invoice_id)
 
 #mark an invoice as sent
 
-print invoice_api.mark_an_invoice_as_sent(invoice_id)
+#printinvoice_api.mark_an_invoice_as_sent(invoice_id)
 
 # void an invoice
 
-print invoice_api.void_an_invoice(invoice_id)
+#printinvoice_api.void_an_invoice(invoice_id)
 
 #mark as draft
 
-print invoice_api.mark_as_draft(invoice_id)
+#printinvoice_api.mark_as_draft(invoice_id)
 
 #email an invoice
 
@@ -213,21 +213,21 @@ email.set_cc_mail_ids(['example@gmail.com'])
 email.set_subject('Statement of transactions')
 email.set_body('welcome') 
 
-print invoice_api.email_an_invoice(invoice_id, email)
-print invoice_api.email_an_invoice(invoice_id, email, None, True, False)
-print invoice_api.email_an_invoice(invoice_id, email, None, True)
-print invoice_api.email_an_invoice(invoice_id, email, attachment, True, True)
+#printinvoice_api.email_an_invoice(invoice_id, email)
+#printinvoice_api.email_an_invoice(invoice_id, email, None, True, False)
+#printinvoice_api.email_an_invoice(invoice_id, email, None, True)
+#printinvoice_api.email_an_invoice(invoice_id, email, attachment, True, True)
 
 #email invoices
 
 contacts_id = [contact_api.get_contacts().get_contacts()[0].get_contact_id(), contact_api.get_contacts().get_contacts()[1].get_contact_id()]
-print invoice_api.email_invoices(contacts_id, invoice_ids)
+#printinvoice_api.email_invoices(contacts_id, invoice_ids)
 
 #invoice_email_content
 
 email_template_id = '71127000000000061'
-print invoice_api.get_email_content(invoice_id)
-print invoice_api.get_email_content(invoice_id, email_template_id)
+#printinvoice_api.get_email_content(invoice_id)
+#printinvoice_api.get_email_content(invoice_id, email_template_id)
 
 #remind customer
 
@@ -239,40 +239,40 @@ email.set_body('welcome to zoho books')
 email.set_send_from_org_email_id = True
 send_customer_statement = False
 
-print invoice_api.remind_customer(invoice_id, email, None, send_customer_statement)
-print invoice_api.remind_customer(invoice_id, email, attachment, send_customer_statement)
+#printinvoice_api.remind_customer(invoice_id, email, None, send_customer_statement)
+#printinvoice_api.remind_customer(invoice_id, email, attachment, send_customer_statement)
 
 #bulk invoice reminder
 
-print invoice_api.bulk_invoice_reminder(invoice_ids)
+#printinvoice_api.bulk_invoice_reminder(invoice_ids)
 
 #get payment reminder mail content
 
-print invoice_api.get_payment_reminder_mail_content(invoice_id).get_deprecated_placeholders_used()
+#printinvoice_api.get_payment_reminder_mail_content(invoice_id).get_deprecated_placeholders_used()
 
 #bulk export invoices
 
-print invoice_api.bulk_export_invoices(invoice_ids)
+#printinvoice_api.bulk_export_invoices(invoice_ids)
 
-#bulk print invoices
+#bulk #printinvoices
 
-print invoice_api.bulk_print_invoices(invoice_ids)
+#printinvoice_api.bulk_print_invoices(invoice_ids)
 
 #disable payment reminder
 
-print invoice_api.disable_payment_reminder(invoice_id)
+#printinvoice_api.disable_payment_reminder(invoice_id)
 
 #enable payment reminder
 
-print invoice_api.enable_payment_reminder(invoice_id)
+#printinvoice_api.enable_payment_reminder(invoice_id)
 
 #write off invoice
 
-print invoice_api.write_off_invoice(invoice_id)
+#printinvoice_api.write_off_invoice(invoice_id)
 
 #cancel write off
 
-print invoice_api.cancel_write_off(invoice_id)
+#printinvoice_api.cancel_write_off(invoice_id)
 
 #update billing address
 
@@ -284,8 +284,8 @@ billing_address.set_zip('3344')
 billing_address.set_country('India')
 billing_address.set_fax('67899')
 
-print invoice_api.update_billing_address(invoice_id, billing_address)
-print invoice_api.update_billing_address(invoice_id, billing_address, True)
+#printinvoice_api.update_billing_address(invoice_id, billing_address)
+#printinvoice_api.update_billing_address(invoice_id, billing_address, True)
 
 # update shipping address
 
@@ -297,16 +297,16 @@ shipping_address.set_zip('3344')
 shipping_address.set_country('India')
 shipping_address.set_fax('67899')
 
-print invoice_api.update_shipping_address(invoice_id, shipping_address)
-print invoice_api.update_shipping_address(invoice_id, shipping_address, True)
+#printinvoice_api.update_shipping_address(invoice_id, shipping_address)
+#printinvoice_api.update_shipping_address(invoice_id, shipping_address, True)
 
 # list invoice templates
 '''
-print invoice_api.list_invoice_templates()
+#printinvoice_api.list_invoice_templates()
 '''
 # update invoice template
 
-print invoice_api.update_invoice_template(invoice_id, template_id)
+#printinvoice_api.update_invoice_template(invoice_id, template_id)
 '''
 #----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -322,11 +322,11 @@ creditnote_id = invoice_api.list_credits_applied(invoice_id).get_invoices_credit
 
 # to list invoice payments
 
-print invoice_api.list_invoice_payments(invoice_id).get_payments()
+#printinvoice_api.list_invoice_payments(invoice_id).get_payments()
 
 # to list credits applied
 
-print invoice_api.list_credits_applied(invoice_id)
+#printinvoice_api.list_credits_applied(invoice_id)
 
 # apply credits
 payments_and_credits = PaymentAndCredit()
@@ -338,14 +338,14 @@ payments = InvoicePayment()
 payments.set_payment_id(payment_id)
 payments.set_amount_applied(0.0)
 payments_and_credits.set_payments(payments)
-print invoice_api.apply_credits(invoice_id, payments_and_credits)
+#printinvoice_api.apply_credits(invoice_id, payments_and_credits)
 
 #to delete payment
-print invoice_api.delete_payment(invoice_id, invoice_payment_id)
+#printinvoice_api.delete_payment(invoice_id, invoice_payment_id)
 
 #to delete applied credit
 
-print invoice_api.delete_applied_credit(invoice_id, creditnotes_invoice_id)
+#printinvoice_api.delete_applied_credit(invoice_id, creditnotes_invoice_id)
 
 '''
 #-----------------------------------------------------------------------------------------------------------------------------------------
@@ -357,25 +357,25 @@ expense_id = expense_api.get_expenses().get_expenses()[0].get_expense_id()
 
 # Get an invoice attachment
 preview = False
-print invoice_api.get_an_invoice_attachment(invoice_id)
-print invoice_api.get_an_invoice_attachment(invoice_id, preview)
+#printinvoice_api.get_an_invoice_attachment(invoice_id)
+#printinvoice_api.get_an_invoice_attachment(invoice_id, preview)
 
 # add attachment to an invoice
 
-print invoice_api.add_attachment_to_an_invoice(invoice_id, ['/{file_directory}/download.jpg'])  
-print invoice_api.add_attachment_to_an_invoice(invoice_id, ['/{file_directory}/download.jpg'], True)
+#printinvoice_api.add_attachment_to_an_invoice(invoice_id, ['/{file_directory}/download.jpg'])  
+#printinvoice_api.add_attachment_to_an_invoice(invoice_id, ['/{file_directory}/download.jpg'], True)
 
 # update attachment preference
 
-print invoice_api.update_attachment_preference(invoice_id, True)
+#printinvoice_api.update_attachment_preference(invoice_id, True)
 
 # delete an attachment
 
-print invoice_api.delete_an_attachment(invoice_id)
+#printinvoice_api.delete_an_attachment(invoice_id)
 
 # delete expense receipt
 
-print invoice_api.delete_expense_receipt(expense_id)
+#printinvoice_api.delete_expense_receipt(expense_id)
 '''
 #------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -384,7 +384,7 @@ print invoice_api.delete_expense_receipt(expense_id)
 comment_id = invoice_api.list_invoice_comments_history(invoice_id).get_comments()[0].get_comment_id()
 #list invoice comments & history
 
-print invoice_api.list_invoice_comments_history(invoice_id)
+#printinvoice_api.list_invoice_comments_history(invoice_id)
 
 #Add Comment
 
@@ -392,16 +392,16 @@ comments = Comment()
 comments.set_description('this is a comment')
 comments.set_show_comment_to_clients(False)
 comments.set_payment_expected_date('')
-print invoice_api.add_comment(invoice_id, comments)
+#printinvoice_api.add_comment(invoice_id, comments)
 
 # Update Comment
 comments = Comment()
 comments.set_description('Invoice marked as sent')
 comments.set_show_comment_to_clients(False)
-print invoice_api.update_comment(invoice_id, comment_id, comments)
+#printinvoice_api.update_comment(invoice_id, comment_id, comments)
 
 #delete Comment
 
-print invoice_api.delete_comment(invoice_id, comment_id)
+#printinvoice_api.delete_comment(invoice_id, comment_id)
 
  
