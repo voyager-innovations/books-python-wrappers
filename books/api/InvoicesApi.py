@@ -1,7 +1,8 @@
 #$Id$#
 
+import json
+
 from os.path import basename
-from json import dumps
 from books.util.ZohoHttpClient import ZohoHttpClient
 from books.parser.InvoicesParser import InvoicesParser
 from books.api.Api import Api
@@ -63,7 +64,7 @@ class InvoicesApi:
 
         """
         self.details = {
-            'authtoken':authtoken, 
+            'authtoken':authtoken,
             'organization_id':organization_id
             }
 
@@ -139,10 +140,9 @@ class InvoicesApi:
             instance: Invoice object.
 
         """
-        json_object = dumps(invoice.to_json())
-        data = { 
-            'JSONString': json_object
-            }
+        data = invoice.to_json()
+        field = json.dumps(data)
+
         query = {}
         if send is not None and ignore_auto_number_generation is not None:
             query = {
@@ -158,8 +158,9 @@ class InvoicesApi:
                     }
         else: 
             query = None
-        response = zoho_http_client.post(base_url, self.details, data, query)
-        return parser.get(response)  
+        response = zoho_http_client.post(base_url, self.details, field, query)
+        print(response)
+        return parser.get(response)
 
     def update(self, invoice_id, invoice, ignore_auto_number_generation=None):
         """Update an existing invoice.
@@ -176,7 +177,7 @@ class InvoicesApi:
 
         """
         url = base_url + invoice_id
-        json_object = dumps(invoice.to_json())
+        json_object = json.dumps(invoice.to_json())
         data = { 
             'JSONString': json_object
             }
@@ -265,7 +266,7 @@ class InvoicesApi:
 
         """
         url = base_url + invoice_id + '/email'
-        json_object = dumps(email.to_json())
+        json_object = json.dumps(email.to_json())
         data = { 
             'JSONString': json_object
             }
@@ -379,7 +380,7 @@ class InvoicesApi:
                     }
             data['contacts'].append(contacts)
         fields = {
-            'JSONString': dumps(data)
+            'JSONString': json.dumps(data)
             }    
         response = zoho_http_client.post(url, self.details, fields, query)
         return parser.get_message(response) 
@@ -423,7 +424,7 @@ class InvoicesApi:
  
         """
         url = base_url + invoice_id + '/paymentreminder'
-        json_object = dumps(email.to_json())
+        json_object = json.dumps(email.to_json())
         data = {
             'JSONString': json_object
             }
@@ -600,7 +601,7 @@ class InvoicesApi:
 
         """
         url = base_url + invoice_id + '/address/billing'
-        json_object = dumps(address.to_json())
+        json_object = json.dumps(address.to_json())
         data = {
             'JSONString': json_object
             }
@@ -628,7 +629,7 @@ class InvoicesApi:
 
         """
         url = base_url + invoice_id + '/address/shipping'
-        json_object = dumps(address.to_json())
+        json_object = json.dumps(address.to_json())
         data = {
             'JSONString': json_object
             }
@@ -726,7 +727,7 @@ class InvoicesApi:
         data['invoice_payments'] = invoice_payments
         data['apply_creditnotes'] = apply_credits
         json_string = {
-            'JSONString': dumps(data)
+            'JSONString': json.dumps(data)
             }
         response = zoho_http_client.post(url, self.details, json_string)
         return parser.apply_credits(response) 
@@ -911,7 +912,7 @@ class InvoicesApi:
         data['show_comment_to_clients'] = \
         comments.get_show_comment_to_clients()
         json_string = {
-            'JSONString': dumps(data)
+            'JSONString': json.dumps(data)
             }
         response = zoho_http_client.post(url, self.details, json_string)
         return parser.get_comment(response) 
@@ -934,7 +935,7 @@ class InvoicesApi:
         data['show_comment_to_clients'] = \
         comments.get_show_comment_to_clients()
         json_string = {
-            'JSONString': dumps(data)
+            'JSONString': json.dumps(data)
             }
         response = zoho_http_client.put(url, self.details, json_string)
         return parser.get_comment(response) 
