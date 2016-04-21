@@ -19,22 +19,24 @@ invoice_api = zoho_books.get_invoices_api()
 
 contact_api = zoho_books.get_contacts_api()
 customer_id = contact_api.get_contacts().get_contacts()[0].get_contact_id()
+print("customer_id = ",customer_id)
 
 contact_id = contact_api.get_contacts().get_contacts()[0].get_contact_id()
 invoice_ids = invoice_api.get_invoices().get_invoices()[0].get_invoice_id() + ',' + invoice_api.get_invoices().get_invoices()[1].get_invoice_id()
-'''
-template_id = invoice_api.list_invoice_templates().get_templates()[0].get_template_id()
-'''
+
+#get customized template
+template_id = invoice_api.list_invoice_templates().get_templates()[1].get_template_id()
+
 items_api = zoho_books.get_items_api()
 item_id = items_api.list_items().get_items()[0].get_item_id()
 
-attachment = ['/{file_directory}/fil1.txt', '/{file_directory}/fil2.txt']
+attachment = ['/Attachment/file1.txt', '/Attachment/file2.txt']
 
 # to list invoices
 
 parameter = {'status':'sent'}
-#printinvoice_api.get_invoices()
-#printinvoice_api.get_invoices(parameter)
+print(invoice_api.get_invoices())
+print(invoice_api.get_invoices(parameter))
 
 #to get an invoice
 
@@ -44,10 +46,10 @@ parameter = {'status':'sent'}
 #create invoice
 
 #invoice_num =  'INV-000001'
-date = '2014-01-27'
+date = '2016-04-21'
 payment_terms = 15
 payment_terms_label = 'Net 15'
-due_date = '2014-03-27'
+due_date = '2016-07-20'
 discount = 1.0
 discount_type = 'item_level'
 exc_rate = 2.0
@@ -57,11 +59,11 @@ contact_person_id = []
 salesperson_name = 'bob'
 
 invoice = Invoice()
+invoice.set_template_id(template_id)
 invoice.set_customer_id(customer_id)
 
 invoice.set_contact_persons(contact_person_id)
 invoice.set_reference_number('1354444444445')
-#invoice.set_template_id(template_id)
 invoice.set_date(date)
 invoice.set_payment_terms(payment_terms)
 invoice.set_payment_terms_label(payment_terms_label)
@@ -87,29 +89,30 @@ line_items.set_expense_id('')
 line_items.set_name('drive')
 line_items.set_description('500 gb hard disk drive')
 line_items.set_item_order(1)
-line_items.set_rate(388)
+line_items.set_rate(3450)
 line_items.set_unit('nos')
 line_items.set_quantity(3.00)
-line_items.set_discount(0.00)
+line_items.set_discount(0.05)
 #line_items.set_tax_id('')
 
 invoice.set_line_items(line_items)
 
-payment_gateway = PaymentGateway()
-payment_gateway.set_gateway_name('paypal')
-
-payment_gateway.set_additional_field1('standard')
-invoice.set_payment_options(payment_gateway)
+# ---- auggie --- Paypal not configured
+# payment_gateway = PaymentGateway()
+# payment_gateway.set_gateway_name('paypal')
+#
+# payment_gateway.set_additional_field1('standard')
+# invoice.set_payment_options(payment_gateway)
 
 invoice.set_allow_partial_payments(True)
 invoice.set_custom_body('')
 invoice.set_custom_subject('')
 invoice.set_notes('notes')
 invoice.set_terms('terms')
-invoice.set_shipping_charge(7.50)
+invoice.set_shipping_charge(120)
 invoice.set_adjustment(15.5)
 invoice.set_adjustment_description('adjustment')
-#printinvoice_api.create(invoice)
+print(invoice_api.create(invoice))
 ##printinvoice_api.create(invoice, False)
 #invoice.set_invoice_number('25')
 ##printinvoice_api.create(invoice, True, True)
@@ -135,7 +138,7 @@ invoice.set_customer_id(customer_id)
 
 invoice.set_contact_persons(contact_person_id)
 invoice.set_reference_number('1354444444445')
-# invoice.set_template_id(template_id)
+invoice.set_template_id(template_id)
 invoice.set_date(date)
 invoice.set_payment_terms(payment_terms)
 invoice.set_payment_terms_label(payment_terms_label)
